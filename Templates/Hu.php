@@ -5,10 +5,10 @@ namespace Novutec\WhoisParser\Templates;
 class Hu extends Standard
 {
 
-    public function parse($result, $rawdata, $query)
+    public function parse($result, $rawdata)
     {
         $rawdata = utf8_encode($rawdata);
-        parent::parse($result, $rawdata, $query);
+        parent::parse($result, $rawdata);
     }
 
 

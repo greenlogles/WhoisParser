@@ -27,7 +27,7 @@ namespace Novutec\WhoisParser\Templates;
 use Novutec\WhoisParser\Templates\Type\Regex;
 
 /**
- * Template for ICB .AC, .SH, .IO and .TM
+ * Template for .IO
  *
  * @category   Novutec
  * @package    WhoisParser
@@ -75,7 +75,7 @@ class Io extends Regex
             '/Country\s*:(?>[\x20\t]*)(.+)/i' => 'contacts:owner:country',
             '/First Registered\s*:(?>[\x20\t]*)(.+)/i' => 'created',
             '/Last Updated\s*:(?>[\x20\t]*)(.+)/i' => 'changed',
-            '/Expires\s*:(?>[\x20\t]*)(.+)/i' => 'expires',
+            '/(Expires|Expiry)\s*:(?>[\x20\t]*)(.+)/i' => 'expires',
             '/Domain Status\s*:(?>[\x20\t]*)(.+)/i' => 'status',
         ),
         2 => array('/User ID\s*:(?>[\x20\t]*)(.+)/i' => 'contacts:owner:handle',

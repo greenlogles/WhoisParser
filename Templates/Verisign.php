@@ -104,13 +104,8 @@ class Verisign extends Regex
         if ($newConfig['server'] == '') {
             $newConfig['server'] = $ResultSet->whoisserver;
         }
-        if ($newConfig['server'] == 'whois.iana.org') {
-            $newConfig = null;
-        }
-
-        if (is_array($newConfig) && strlen($newConfig['server'])) {
-            $Config->setCurrent($newConfig);
-            $WhoisParser->call();
-        }
+        
+        $Config->setCurrent($newConfig);
+        $WhoisParser->call();
     }
 }

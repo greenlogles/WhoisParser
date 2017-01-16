@@ -15,7 +15,7 @@ class Standard extends KeyValue
     protected $regexKeys = array(
         'name' => '/^Domain Name$/i',
         'ask_whois' => '/^(Registrar )?Whois Server$/i',
-        'created' => '/^(Domain |Record )?(Creat|Registrat|Register)(e|ed|ion)( On| Date)?$/i',
+        'created' => '/^(Domain |Record )?Creat(e|ed|ion)( On| Date)?$/i',
         'expires' => '/^(Domain )?(Registration |Registry )?(Expiration|Expires|Expiry) (On|Date)$/i',
         'changed' => '/^(Domain )?(Last )?Updated (On|Date)$/i',
         'nameserver' => '/^(Name Server|Name Server Name|Nameservers)$/i',
@@ -94,18 +94,9 @@ class Standard extends KeyValue
         'contacts:billing:email' => '/^Billing(\-| )(Contact )?(Email|E-Mail)$/i',
     );
 
-    protected $available = array(
-        '/(Available\s*Domain:|Status: free|No match|No Object Found|Domain (name )?not found|Domain Status: Available| is not registered|Not found: |No data found)/i',
-        '/^\s*(Object )?Not Found(\.\.\.)?\s*$/i',
-        '/^\s*# Not found\s*/im',
-        '/Domain "([^"]+)" is available for registration/i',
-    );
+    protected $available = '/(Status: free|No match|No Object Found|Domain not found|Domain Status: Available)/i';
 
-    protected $availabilityField = 'status';
-
-    protected $availabilityValues = array('available', 'not registered', 'free');
-
-    protected $rateLimit = '/(Quota Exceeded|exceeded the maximum allowable|exceeded your query limit|restricted due to excessive queries)|WHOIS LIMIT EXCEEDED|due to query limit controls|You have exceeded you allotted number of|Maximum Daily connection limit reached./i';
+    protected $rateLimit = '/(exceeded the maximum allowable|exceeded your query limit)/i';
 
 
     public function postProcess(&$WhoisParser)

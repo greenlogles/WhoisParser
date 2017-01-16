@@ -71,5 +71,5 @@ class Lt extends Regex
      * @var string
      * @access protected
      */
-    protected $available = '/Status:[\s]*available/i';
+    protected $available = '/available/i';
 }

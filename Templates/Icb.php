@@ -107,7 +107,7 @@ class Icb extends Regex
     protected $available = '/(There is no live registration)/i';
 
 
-    public function translateRawData($rawdata, $config)
+    public function translateRawData($rawdata)
     {
         return strip_tags($rawdata);
     }

@@ -101,52 +101,30 @@ class Iana extends Regex
         } else {
             $Result->dnssec = false;
         }
-
-        $newConfig = null;
+        
         if (isset($Query->idnFqdn) || isset($Query->ip) || isset($Query->asn)) {
             if (isset($Result->name) && $Result->name != '') {
                 if ($Result->name !== $Query->tld) {
                     $newConfig = $Config->get($Query->tld);
                 }
                 
-                if ($Result->name === $Query->tld || $newConfig['dummy'] === true) {
+                if ($Result->name === $Query->tld || $newConfig['dummy'] === false) {
                     $newConfig = $Config->get($Result->name);
                 }
                 
                 if ($newConfig['server'] == '') {
                     $newConfig['server'] = $Result->whoisserver;
                 }
-
-                // We didn't find a specified config for the TLD, so let's try by whois server
-                if ($newConfig['dummy']) {
-                    $serverConfig = $Config->get($newConfig['server']);
-                    if (!$serverConfig['dummy']) {
-                        $newConfig = $serverConfig;
-
-                        if ($newConfig['server'] == '') {
-                            $newConfig['server'] = $Result->whoisserver;
-                        }
-                    }
-                }
             } else {
                 $mapping = $Config->get($Result->whoisserver);
                 $newConfig = $Config->get($mapping['template']);
             }
-        } else if (isset($Query->idnTld) && ($Result->name != $Query->idnTld) && strlen($Result->name)) {
-            $domain = $Query->idnTld;
-            $domainParts = explode('.', $domain);
-            array_shift($domainParts);
-            $domain = join('.', $domainParts);
-
-            if (strlen($domain)) {
-                $newConfig = $Config->get($domain);
+            
+            if ($newConfig['server'] != '') {
+                $Result->reset();
+                $Config->setCurrent($newConfig);
+                $WhoisParser->call();
             }
-        }
-
-        if (is_array($newConfig) && strlen($newConfig['server'])) {
-            $Result->reset();
-            $Config->setCurrent($newConfig);
-            $WhoisParser->call();
         }
     }
 }
